@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>1980 Food Safety Exam - Level 1 | HACCP & Hygiène</title>
+<style>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+@font-face{font-family:'Cairo';font-style:normal;font-weight:400 900;src:url('https://fonts.gstatic.com/s/cairo/v28/SLXgc1nY6HkvangtZmpcWmhzfH5lWWgcQyyp.woff2') format('woff2');}
+:root {
+  --green:#1a7a4a; --green2:#2ea86a; --green-bg:#e8f5ee;
+  --gold:#c8972a; --gold-bg:#fdf6e3;
+  --red:#c0392b; --red-bg:#fee2e2;
+  --dark:#1a2332; --gray:#6b7280; --bg:#f4f7f5; --white:#fff;
+  --shadow:0 4px 24px rgba(0,0,0,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;direction:rtl;overflow-x:hidden;}
+
+/* SCREENS */
+.screen{display:none;min-height:100vh;padding:20px;flex-direction:column;align-items:center;justify-content:center;}
+.screen.active{display:flex;}
+
+/* WELCOME */
+#s-welcome{background:linear-gradient(135deg,#1a2332 0%,#1a7a4a 100%);text-align:center;}
+.logo{font-size:60px;margin-bottom:12px;}
+#s-welcome h1{font-size:26px;font-weight:900;color:#fff;margin-bottom:6px;}
+#s-welcome .sub{font-size:13px;color:#a0cfb8;margin-bottom:32px;line-height:1.8;}
+.card{background:#fff;border-radius:18px;padding:28px 24px;width:100%;max-width:460px;box-shadow:var(--shadow);}
+.card h2{font-size:17px;font-weight:700;text-align:center;margin-bottom:20px;color:var(--dark);}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:12px;color:var(--gray);font-weight:700;margin-bottom:5px;}
+.fg input,.fg select{width:100%;padding:11px 13px;border:2px solid #e5e7eb;border-radius:10px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:14px;color:var(--dark);background:#fff;direction:rtl;transition:border-color .2s;}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--green);}
+.btn-go{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:12px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .2s;}
+.btn-go:hover{background:var(--green2);}
+.note{margin-top:14px;font-size:11px;color:#9ca3af;text-align:center;line-height:1.7;}
+
+/* ANTI-CHEAT OVERLAY */
+#cheat-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:30px;}
+#cheat-overlay.show{display:flex;}
+#cheat-overlay .big{font-size:64px;margin-bottom:16px;}
+#cheat-overlay h2{color:#fff;font-size:22px;font-weight:900;margin-bottom:10px;}
+#cheat-overlay p{color:#9ca3af;font-size:14px;max-width:320px;line-height:1.8;margin-bottom:20px;}
+.cheat-count{background:#c0392b;color:#fff;padding:8px 20px;border-radius:100px;font-size:14px;font-weight:700;}
+.btn-return{background:var(--green);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:14px;}
+
+/* EXAM */
+#s-exam{background:var(--bg);padding:14px;align-items:stretch;justify-content:flex-start;}
+.exam-top{background:var(--dark);color:#fff;border-radius:14px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;max-width:700px;width:100%;align-self:center;}
+.exam-info-txt{font-size:12px;color:#a0cfb8;}
+.exam-info-txt strong{color:#fff;display:block;font-size:14px;}
+.timer{background:var(--red);color:#fff;padding:8px 14px;border-radius:10px;font-size:22px;font-weight:900;letter-spacing:2px;min-width:78px;text-align:center;}
+.timer.warn{animation:blink 1s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.5;}}
+.prog-bar{background:#e5e7eb;border-radius:100px;height:5px;margin-bottom:12px;max-width:700px;width:100%;align-self:center;overflow:hidden;}
+.prog-fill{height:100%;background:var(--green);border-radius:100px;transition:width .3s;}
+.q-card{background:#fff;border-radius:16px;padding:22px 20px;max-width:700px;width:100%;align-self:center;box-shadow:var(--shadow);}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.q-num{font-size:12px;color:var(--gray);font-weight:700;}
+.q-badge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:700;}
+.mcq{background:#dbeafe;color:#1e40af;}
+.tf{background:#fef3c7;color:#92400e;}
+.q-term{background:var(--green-bg);border-radius:10px;padding:10px 14px;margin-bottom:14px;border-right:4px solid var(--green);}
+.q-term .fr{font-size:15px;font-weight:900;color:var(--green);}
+.q-term .pronounce{font-size:12px;color:var(--gray);margin-top:2px;}
+.q-term .meaning{font-size:13px;color:var(--dark);margin-top:4px;font-weight:600;}
+.q-text{font-size:16px;font-weight:700;color:var(--dark);line-height:1.7;margin-bottom:20px;}
+.options{display:flex;flex-direction:column;gap:9px;}
+.opt{padding:13px 16px;border:2px solid #e5e7eb;border-radius:12px;background:#fff;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:14px;color:var(--dark);cursor:pointer;text-align:right;transition:all .15s;display:flex;align-items:center;gap:10px;}
+.opt:hover{border-color:var(--green);background:var(--green-bg);}
+.opt.sel{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+.opt.correct{border-color:#16a34a;background:#dcfce7;color:#166534;}
+.opt.wrong{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+.opt-ltr{width:28px;height:28px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.opt.sel .opt-ltr{background:var(--green);color:#fff;}
+.exam-nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px;max-width:700px;width:100%;align-self:center;gap:10px;}
+.btn-nav{padding:11px 22px;border:2px solid var(--green);border-radius:10px;background:#fff;color:var(--green);font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn-nav:hover{background:var(--green);color:#fff;}
+.btn-nav:disabled{opacity:.3;cursor:not-allowed;}
+.btn-sub{padding:11px 24px;background:var(--green);color:#fff;border:none;border-radius:10px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+.q-dots{display:flex;flex-wrap:wrap;gap:5px;max-width:700px;width:100%;align-self:center;margin-bottom:10px;}
+.dot{width:22px;height:22px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;transition:all .2s;font-weight:700;}
+.dot.done{background:var(--green);color:#fff;}
+.dot.curr{background:var(--dark);color:#fff;}
+
+/* RESULT */
+#s-result{background:linear-gradient(135deg,#f4f7f5,#e8f5ee);}
+.res-card{background:#fff;border-radius:20px;padding:30px 24px;max-width:480px;width:100%;box-shadow:var(--shadow);text-align:center;}
+.res-icon{font-size:60px;margin-bottom:10px;}
+.res-title{font-size:22px;font-weight:900;margin-bottom:6px;}
+.res-title.pass{color:var(--green);}
+.res-title.fail{color:var(--red);}
+.res-score{font-size:52px;font-weight:900;line-height:1;margin:12px 0;}
+.res-score.pass{color:var(--green);}
+.res-score.fail{color:var(--red);}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;}
+.rbox{background:var(--bg);border-radius:12px;padding:12px;text-align:center;}
+.rbox .n{font-size:20px;font-weight:900;}
+.rbox .l{font-size:11px;color:var(--gray);margin-top:2px;}
+.btn-cert{width:100%;padding:13px;background:var(--gold);color:#fff;border:none;border-radius:12px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;}
+.btn-retry{width:100%;padding:11px;background:#fff;color:var(--gray);border:2px solid #e5e7eb;border-radius:12px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;}
+.cheat-warn-box{background:#fef3c7;border:2px solid var(--gold);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:12px;color:#92400e;}
+
+/* CERT */
+#cert-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:16px;}
+#cert-wrap.show{display:flex;}
+#cert-box{background:#fff;width:100%;max-width:680px;border-radius:4px;}
+.cert-in{border:7px double var(--gold);margin:10px;padding:36px 30px;text-align:center;position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.cc{position:absolute;font-size:22px;opacity:.25;}
+.cc.tl{top:6px;right:6px;} .cc.tr{top:6px;left:6px;} .cc.bl{bottom:6px;right:6px;} .cc.br{bottom:6px;left:6px;}
+.cert-logo{font-size:44px;}
+.cert-label{font-size:11px;letter-spacing:3px;color:var(--gold);font-weight:700;}
+.cert-h{font-size:26px;font-weight:900;color:var(--dark);}
+.cert-div{width:70px;height:3px;background:var(--gold);border-radius:2px;}
+.cert-sub{font-size:13px;color:var(--gray);}
+.cert-name{font-size:28px;font-weight:900;color:var(--green);border-bottom:2px solid var(--gold);padding-bottom:5px;min-width:180px;}
+.cert-body{font-size:13px;color:var(--dark);line-height:1.9;max-width:460px;}
+.cert-badge{background:var(--green);color:#fff;padding:7px 22px;border-radius:100px;font-size:15px;font-weight:900;}
+.cert-ft{display:flex;justify-content:space-between;width:100%;font-size:11px;color:var(--gray);border-top:1px solid #e5e7eb;padding-top:10px;margin-top:6px;}
+.cert-acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center;}
+.ca{padding:9px 18px;border-radius:10px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;}
+.ca-dl{background:var(--gold);color:#fff;}
+.ca-pr{background:var(--dark);color:#fff;}
+.ca-cl{background:#e5e7eb;color:var(--dark);}
+
+
+/* ADMIN */
+#s-admin{background:linear-gradient(135deg,#1a2332 0%,#2d4a3e 100%);}
+.admin-card{background:#fff;border-radius:18px;padding:28px 24px;width:100%;max-width:460px;box-shadow:var(--shadow);}
+.admin-card h2{font-size:18px;font-weight:900;text-align:center;margin-bottom:20px;color:var(--dark);}
+.admin-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;}
+.admin-table th{background:var(--dark);color:#fff;padding:8px 10px;text-align:right;}
+.admin-table td{padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:right;}
+.admin-table tr:nth-child(even){background:#f9fafb;}
+.btn-unlock{padding:5px 12px;background:var(--green);color:#fff;border:none;border-radius:8px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+.btn-unlock-all{width:100%;padding:11px;background:var(--red);color:#fff;border:none;border-radius:10px;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;}
+.admin-stat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.astat{background:var(--bg);border-radius:12px;padding:12px;text-align:center;}
+.astat .n{font-size:22px;font-weight:900;color:var(--dark);}
+.astat .l{font-size:11px;color:var(--gray);}
+
+/* BLOCKED */
+#s-blocked{background:var(--dark);color:#fff;text-align:center;}
+#s-blocked h2{font-size:20px;margin:14px 0 8px;}
+#s-blocked p{color:#9ca3af;font-size:13px;max-width:300px;line-height:1.8;}
+
+@media print{
+  @page{margin:0;size:A4 landscape;}
+  html,body{width:100%;height:100%;margin:0;padding:0;}
+  body>*{display:none!important;}
+  #cert-wrap{
+    display:flex!important;
+    position:fixed!important;
+    inset:0!important;
+    background:#fff!important;
+    padding:10mm!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+  #cert-box{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    box-shadow:none!important;
+  }
+  .cert-in{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    border:6px double #c8972a!important;
+    padding:20mm 15mm!important;
+    min-height:auto!important;
+  }
+  .cert-acts{display:none!important;}
+  *{
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;
+    color-adjust:exact!important;
+  }
+  .cert-name{color:#1a7a4a!important;}
+  .cert-badge{background:#1a7a4a!important;color:#fff!important;padding:8px 24px!important;border-radius:100px!important;}
+  .cert-div{background:#c8972a!important;width:70px!important;height:3px!important;display:block!important;}
+  .cert-label{color:#c8972a!important;letter-spacing:3px!important;}
+  .cc{display:block!important;opacity:0.3!important;}
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div id="s-welcome" class="screen active">
+  <div class="logo">🍽️</div>
+  <h1>1980 Food Safety Exam</h1>
+  <p class="sub">HACCP · Hygiène · Food Safety<br>⭐ المستوى الأول فقط | 7 دقائق</p>
+  <div class="card">
+    <h2>📋 ادخل كودك الشخصي</h2>
+    <div class="fg">
+      <label>الكود الوظيفي</label>
+      <input id="i-code" type="text" placeholder="ادخل كودك هنا..." oninput="lookupCode()" style="font-size:22px;text-align:center;font-weight:900;letter-spacing:4px" autocomplete="off">
+    </div>
+    <div id="emp-preview" style="display:none;background:var(--green-bg);border:2px solid var(--green);border-radius:12px;padding:14px;margin:10px 0;text-align:center">
+      <div style="font-size:18px;font-weight:900;color:var(--green)" id="emp-name"></div>
+      <div style="font-size:13px;color:var(--gray);margin-top:4px" id="emp-branch"></div>
+    </div>
+    <div id="emp-error" style="display:none;background:#fee2e2;border:2px solid var(--red);border-radius:12px;padding:10px;text-align:center;color:var(--red);font-size:13px;font-weight:700">
+      ❌ الكود غير موجود — تواصل مع المسؤول
+    </div>
+    <input type="hidden" id="i-level" value="1">
+    <button class="btn-go" id="btn-start" onclick="startExam()" style="display:none;margin-top:8px">🚀 ابدأ الامتحان</button>
+    <p class="note">⚠️ كل كود يمتحن مرة واحدة فقط<br>🔒 الخروج أثناء الامتحان يُسجَّل كغش</p>
+    <button class="btn-retry" onclick="showS('s-admin-login')" style="margin-top:8px">🔑 دخول المسؤول</button>
+  </div>
+</div>
+
+<!-- ANTI-CHEAT OVERLAY -->
+<div id="cheat-overlay">
+  <div class="big">🚨</div>
+  <h2>تحذير — تم رصد مغادرة الصفحة!</h2>
+  <p id="cheat-msg">خرجت من صفحة الامتحان. هذا يُعتبر محاولة غش وتم تسجيله.</p>
+  <div class="cheat-count" id="cheat-count">عدد المخالفات: 1</div>
+  <button class="btn-return" onclick="returnToExam()">🔙 العودة للامتحان</button>
+</div>
+
+<!-- EXAM -->
+<div id="s-exam" class="screen">
+  <div class="exam-top">
+    <div class="exam-info-txt">
+      <strong id="e-name-bar">الاسم</strong>
+      <span id="e-job-bar" style="color:#d4edda;font-size:11px;display:block"></span>
+      <span id="e-code-bar" style="color:#a0cfb8;font-size:11px;display:block"></span>
+      <span id="e-level" style="color:#fff;font-size:12px;display:block;margin-top:2px"></span>
+    </div>
+    <div class="timer" id="timer">07:00</div>
+  </div>
+  <div class="q-dots" id="q-dots"></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num" id="q-num">سؤال 1 من 20</span>
+      <span class="q-badge" id="q-badge">اختيار متعدد</span>
+    </div>
+    <div class="q-term" id="q-term" style="display:none">
+      <div class="fr" id="q-term-fr"></div>
+      <div class="pronounce" id="q-term-pr"></div>
+      <div class="meaning" id="q-term-mn"></div>
+    </div>
+    <p class="q-text" id="q-text"></p>
+    <div class="options" id="opts"></div>
+  </div>
+  <div class="exam-nav">
+    <button class="btn-nav" id="btn-prev" onclick="prevQ()" disabled>⬅ السابق</button>
+    <button class="btn-sub" id="btn-sub" onclick="submitExam()" style="display:none">✅ إنهاء</button>
+    <button class="btn-nav" id="btn-next" onclick="nextQ()">التالي ➡</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="s-result" class="screen">
+  <div class="res-card">
+    <div class="res-icon" id="r-icon">🎉</div>
+    <div class="res-title" id="r-title">ناجح</div>
+    <div class="res-score" id="r-score">85%</div>
+    <p style="color:var(--gray);font-size:13px" id="r-msg"></p>
+    <div class="res-grid">
+      <div class="rbox"><div class="n" id="r-c">0</div><div class="l">✅ صح</div></div>
+      <div class="rbox"><div class="n" id="r-w">0</div><div class="l">❌ غلط</div></div>
+      <div class="rbox"><div class="n" id="r-t">0</div><div class="l">📋 إجمالي</div></div>
+      <div class="rbox"><div class="n" id="r-tm">0</div><div class="l">⏱ الوقت</div></div>
+    </div>
+    <div class="cheat-warn-box" id="r-cheat" style="display:none"></div>
+    <button class="btn-cert" id="btn-cert" onclick="showCert()" style="display:none">🏆 عرض الشهادة وطباعتها</button>
+    <button class="btn-go" onclick="nextPerson()" style="margin-top:8px;background:#1a7a4a">👤 الشخص التالي</button>
+  </div>
+</div>
+
+<!-- BLOCKED -->
+<div id="s-blocked" class="screen">
+  <div style="font-size:60px">🔒</div>
+  <h2>هذا الجهاز أدى الامتحان بالفعل</h2>
+  <p>كل جهاز يحق له امتحان واحد فقط.<br>تواصل مع المسؤول لإعادة التعيين.</p>
+  <div style="margin-top:16px;font-size:12px;color:#4b5563" id="blocked-info"></div>
+  <button class="btn-retry" onclick="adminReset()" style="max-width:280px;margin-top:16px">🔑 إعادة تعيين (للمسؤول)</button>
+  <button class="btn-retry" onclick="quickReset()" style="max-width:280px;margin-top:8px;background:var(--green);color:#fff;border-color:var(--green)">🔄 امتحان موظف جديد من نفس الجهاز</button>
+</div>
+
+<!-- CERTIFICATE -->
+<div id="cert-wrap">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px;max-width:700px;width:100%">
+    <div id="cert-box">
+      <div class="cert-in">
+        <span class="cc tl">🌿</span><span class="cc tr">🌿</span>
+        <span class="cc bl">🌿</span><span class="cc br">🌿</span>
+        <div style="font-size:32px;font-weight:900;color:var(--gold);letter-spacing:6px;text-shadow:0 2px 8px rgba(200,151,42,0.3)">🍽️ 1980 🍽️</div>
+        <div class="cert-label">CERTIFICAT DE RÉUSSITE — شهادة إتمام</div>
+        <div class="cert-h">سلامة الغذاء · HACCP & Hygiène</div>
+        <div class="cert-div"></div>
+        <div class="cert-sub">يُشهد بأن</div>
+        <div class="cert-name" id="c-name"></div>
+        <div class="cert-body" id="c-body"></div>
+        <div class="cert-badge" id="c-badge"></div>
+
+        <!-- Signatories -->
+        <div style="display:flex;justify-content:space-between;width:100%;margin-top:20px;gap:16px;">
+          <div style="flex:1;text-align:center;border-top:1px solid #e5e7eb;padding-top:10px;">
+            <div style="font-size:12px;color:var(--gray);margin-bottom:4px;">توقيع</div>
+            <div style="font-size:13px;font-weight:700;color:var(--dark);">Chef Hassan Mohamed</div>
+            <div style="font-size:11px;color:var(--gray);">شيف حسن محمد</div>
+          </div>
+          <div style="flex:1;text-align:center;border-top:1px solid #e5e7eb;padding-top:10px;">
+            <div style="font-size:12px;color:var(--gray);margin-bottom:4px;">توقيع</div>
+            <div style="font-size:13px;font-weight:700;color:var(--dark);">Chef Shraby</div>
+            <div style="font-size:11px;color:var(--gray);">شيف شرابي</div>
+          </div>
+        </div>
+
+        <div class="cert-ft">
+          <span id="c-date"></span>
+          <span id="c-id"></span>
+        </div>
+      </div>
+    </div>
+    <div class="cert-acts">
+      <button class="ca ca-dl" onclick="savePDF()">📄 حفظ PDF</button>
+      <button class="ca ca-pr" onclick="window.print()">🖨️ طباعة</button>
+      <button class="ca ca-cl" onclick="closeCert()">✖ إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const EMPLOYEES = {"175": {"name": "محمود صبحي عزيز متولي", "branch": "السنتر"}, "536": {"name": "محمود إبراهيم محمود الشيمي", "branch": "السنتر"}, "548": {"name": "عبدالرحمن أحمد العدوي نعيم بدوي", "branch": "السنتر"}, "576": {"name": "رامي حمري انجلو كالو", "branch": "السنتر"}, "593": {"name": "أحمد حسن محمد علي صائم", "branch": "السنتر"}, "650": {"name": "ساميه عبدالفتاح فوزي محمد عبدالفتاح", "branch": "السنتر"}, "708": {"name": "علي محمود علي أحمد", "branch": "السنتر"}, "745": {"name": "محمد جادالله إبراهيم إمام", "branch": "السنتر"}, "816": {"name": "بدر حسين حسن محمود أحمد", "branch": "السنتر"}, "859": {"name": "محمد يسري صابر أبو ضيف", "branch": "السنتر"}, "870": {"name": "أحمد مختار محارب عبدالمرضي", "branch": "السنتر"}, "929": {"name": "بلال مهاب عبدالرحيم محمود محمد", "branch": "السنتر"}, "931": {"name": "عصام إبراهيم عرفات إبراهيم محمد", "branch": "السنتر"}, "940": {"name": "جرجس ميلاد شحاته حنا شحاته", "branch": "السنتر"}, "941": {"name": "عمرو سعيد محمد صاوي بدر", "branch": "السنتر"}, "945": {"name": "عمرو أسامة طه عبده محمد", "branch": "السنتر"}, "967": {"name": "هشام إبراهيم عبدالقادر عامر", "branch": "السنتر"}, "993": {"name": "حسن محمد أبو اليزيد علي البلتاجي", "branch": "السنتر"}, "1032": {"name": "عبدالمنجي طنطاوي عبدالمنجي طنطاوي", "branch": "السنتر"}, "1159": {"name": "يوسف أحمد أنور محمد عبدالقادر", "branch": "السنتر"}, "1239": {"name": "أحمد محمد عربي أحمد", "branch": "السنتر"}, "1260": {"name": "كريم رمضان صلاح أحمد", "branch": "السنتر"}, "1261": {"name": "محمد حسين محمد محمود", "branch": "السنتر"}, "1318": {"name": "محمود سمير محمد طنطاوي النطاط", "branch": "السنتر"}, "1339": {"name": "أحمد تامر عادل محمد أبوزيد", "branch": "السنتر"}, "1388": {"name": "عبدالله يوسف سيد عبدالمنعم", "branch": "السنتر"}, "1398": {"name": "محمد صابر صوفي قطب", "branch": "السنتر"}, "1400": {"name": "فارس عيد علي رجب إسماعيل عريان", "branch": "السنتر"}, "1458": {"name": "أحمد رضا السيد محمدي السيد", "branch": "السنتر"}, "1467": {"name": "يوسف سيد إسماعيل أحمد العسيلي", "branch": "السنتر"}, "1468": {"name": "إسلام عطيه علي مزيد", "branch": "السنتر"}, "1491": {"name": "محمد أحمد سعد عبدالفتاح", "branch": "السنتر"}, "1504": {"name": "محمد عزت ناصر عبدالرازق محمد زيدان", "branch": "السنتر"}, "1505": {"name": "إسلام سعيد حنفي حسن", "branch": "السنتر"}, "1506": {"name": "حسام شوقي أحمد عبدالناصر", "branch": "السنتر"}, "1513": {"name": "ضاحي عبدالله عبدالمالك عمران", "branch": "السنتر"}, "1540": {"name": "محمود جمال السيد فرحات أبو صالح", "branch": "السنتر"}, "1548": {"name": "أحمد يوسف عبدالعزيز يوسف", "branch": "السنتر"}, "1621": {"name": "محمود حمدي عزت محمد بدوي", "branch": "السنتر"}, "1625": {"name": "محمد أحمد عبدالمنعم عبدربه خلاف", "branch": "السنتر"}, "1629": {"name": "حسام عبدالله عنتر عبدالرازق أحمد", "branch": "السنتر"}, "1648": {"name": "مالك أحمد محمود أحمد علي", "branch": "السنتر"}, "1658": {"name": "عبدالله سلامة إبراهيم سيد أحمد", "branch": "السنتر"}, "1659": {"name": "أدم سمير أبو سريع أدم علي", "branch": "السنتر"}, "1661": {"name": "عبدالرحمن أحمد فتحي مجاهد محمد", "branch": "السنتر"}, "1670": {"name": "إسلام محمد محسن عزوز خليل", "branch": "السنتر"}, "1671": {"name": "مناوئل اندروس كودي كوكو", "branch": "السنتر"}, "1691": {"name": "أدهم مصطفي فوزي فرج عبدالمجيد", "branch": "السنتر"}, "1695": {"name": "أحمد سمير محمد عبد الغني", "branch": "السنتر"}, "1699": {"name": "محمد أحمد هلال محمد", "branch": "السنتر"}, "1700": {"name": "مصطفي شوقي أحمد عبد الناصر", "branch": "السنتر"}, "1736": {"name": "إسلام محمد عبدالعزيز عبدالقادر", "branch": "السنتر"}, "1891": {"name": "محمد خالد عبده عبدالعال", "branch": "السنتر"}, "1894": {"name": "علي سيد البدوي سيد علي", "branch": "السنتر"}, "1903": {"name": "عبدالرحمن سليمان أحمد محمد سليمان", "branch": "السنتر"}, "1941": {"name": "مروان إبراهيم محمد محمود جودة", "branch": "السنتر"}, "1942": {"name": "محمود نصر محمد عكاشة السيسي", "branch": "السنتر"}, "1951": {"name": "عدلي عبدالرحمن كوكومان كوكو", "branch": "السنتر"}, "178": {"name": "محمود علاء الدين محمود أبو العلا", "branch": "المعادي"}, "240": {"name": "أنور هشام أنور إبراهيم", "branch": "المعادي"}, "527": {"name": "محمد سامي محمد الأمين إمام عبدالرازق", "branch": "المعادي"}, "634": {"name": "سيد خالد سيد سلطان", "branch": "المعادي"}, "635": {"name": "أحمد محمد عبدالعزيز محمد شاهين", "branch": "المعادي"}, "642": {"name": "اكيتش اجوير دينج اجوير", "branch": "المعادي"}, "645": {"name": "كوتش اكيتش ابييم", "branch": "المعادي"}, "767": {"name": "لوال دنج مو دنج", "branch": "المعادي"}, "887": {"name": "عبدالله خالد عبداللطيف محمد عبداللطيف", "branch": "المعادي"}, "969": {"name": "عطيه محمد حسن منوفي", "branch": "المعادي"}, "1021": {"name": "ديفيد سوبيك ويليم جورج", "branch": "المعادي"}, "1112": {"name": "عبدالرحمن أسامة بنداري الشوربجي", "branch": "المعادي"}, "1282": {"name": "محمد عبدالقوي محمد عبدالقوي", "branch": "المعادي"}, "1589": {"name": "يوسف نور البدري السيد", "branch": "المعادي"}, "1617": {"name": "محمود محمد محمود السنوسي", "branch": "المعادي"}, "1747": {"name": "عبدالحميد أحمد فتحي عبدالحميد", "branch": "المعادي"}, "1757": {"name": "نادر إبراهيم محمود المنسي", "branch": "المعادي"}, "88": {"name": "محمود سمير عبدالفتاح محمد", "branch": "إيفوري"}, "177": {"name": "مروان عماد مناع حسن عبدالمحسن", "branch": "إيفوري"}, "379": {"name": "محمد يسري حسين عرابي", "branch": "إيفوري"}, "549": {"name": "مينا عادل فارس غيط", "branch": "إيفوري"}, "1079": {"name": "محمد البيومي عوض مخلوف", "branch": "إيفوري"}, "1639": {"name": "صلاح الدين رفعت إبراهيم بيومي", "branch": "إيفوري"}, "1688": {"name": "كريم أيمن حسين حسن", "branch": "إيفوري"}, "1694": {"name": "فايز صالح عبدالله أدم", "branch": "إيفوري"}, "1735": {"name": "طارق سمير عثمان خفاجة عامر", "branch": "إيفوري"}, "1792": {"name": "يوسف السيد أحمد عبد السلام إبراهيم", "branch": "إيفوري"}, "1834": {"name": "أحمد محمد أحمد صلاح عبدالحميد محمد", "branch": "إيفوري"}, "1862": {"name": "عبدالرحمن عاطف محمد أحمد يوسف", "branch": "إيفوري"}, "1888": {"name": "عمرو محمد نجيب حسين أحمد", "branch": "إيفوري"}, "1889": {"name": "أشرف سعد مصطفي جبر", "branch": "إيفوري"}, "1902": {"name": "محمد صلاح محمد عبدالحميد", "branch": "إيفوري"}, "1913": {"name": "رامي عماد سعيد أبو بكر عبدالمولي", "branch": "إيفوري"}, "1943": {"name": "محمود أسامة عبدالحليم عبدالصمد", "branch": "إيفوري"}, "1946": {"name": "يوسف سعيد إبراهيم", "branch": "إيفوري"}, "1949": {"name": "أحمد محمد علي عيسي", "branch": "إيفوري"}, "689": {"name": "عاطف محمد عبدالعدل محمد", "branch": "بارك إستريت"}, "962": {"name": "محمد عيد محمد السيد", "branch": "بارك إستريت"}, "1145": {"name": "أحمد أمين فؤاد أمين هلال", "branch": "بارك إستريت"}, "1701": {"name": "يوسف منصور يوسف سطوحي", "branch": "بارك إستريت"}, "1728": {"name": "مروان محمد راضي عبدالعليم", "branch": "بارك إستريت"}, "1729": {"name": "أحمد ماهر محمد محمد", "branch": "بارك إستريت"}, "1730": {"name": "أحمد فاوي فؤاد أحمد", "branch": "بارك إستريت"}, "1776": {"name": "أحمد إبراهيم محمود الغرب", "branch": "بارك إستريت"}, "1789": {"name": "خالد إبراهيم خليل محمد", "branch": "بارك إستريت"}, "1790": {"name": "أحمد محمد مسعد منطاوي", "branch": "بارك إستريت"}, "1791": {"name": "أحمد محمد رزق أبو زيد", "branch": "بارك إستريت"}, "1803": {"name": "أحمد عبدالرحيم ثابت محمد", "branch": "بارك إستريت"}, "1816": {"name": "فهد محمود عثمان", "branch": "بارك إستريت"}, "1826": {"name": "محمد نصر إدريس فضل", "branch": "بارك إستريت"}, "1887": {"name": "سيد عبدالرازق سيد حسن", "branch": "بارك إستريت"}, "1892": {"name": "إسماعيل علي إسماعيل أحمد", "branch": "بارك إستريت"}, "1906": {"name": "أحمد نصر إدريس فضل", "branch": "بارك إستريت"}, "1917": {"name": "يوسف هيثم محمد مرسي", "branch": "بارك إستريت"}, "1919": {"name": "سلامه حسن سلامه حسن عبدالجواد", "branch": "بارك إستريت"}, "1953": {"name": "احمد حسن احمد حسن", "branch": "بارك إستريت"}, "1958": {"name": "سيف سيد درويش سيد ابراهيم", "branch": "بارك إستريت"}, "86": {"name": "محمود عبدالعال عبدالسلام أبو خالد", "branch": "جاليريا"}, "167": {"name": "أحمد رضا أحمد حسين", "branch": "جاليريا"}, "169": {"name": "عبدالله محمد إبراهيم عبدالجليل", "branch": "جاليريا"}, "575": {"name": "باسم حمدي محمد السيد عبده", "branch": "جاليريا"}, "731": {"name": "أدهم أنور أحمد عتريس", "branch": "جاليريا"}, "809": {"name": "مصطفي رأفت أحمد عبدالقادر", "branch": "جاليريا"}, "938": {"name": "علي محمد أحمد محمد إمام", "branch": "جاليريا"}, "1073": {"name": "عبدالرحمن عبدالرحيم سليم عبدالمنعم", "branch": "جاليريا"}, "1169": {"name": "زياد صابر عبدالمنعم أبو طالب", "branch": "جاليريا"}, "1223": {"name": "شادي محمد السيد محمد سلام", "branch": "جاليريا"}, "1224": {"name": "أحمد محمد فتح الله قطب الزيدي", "branch": "جاليريا"}, "1243": {"name": "إسلام حسن عبدالحميد حسين", "branch": "جاليريا"}, "1348": {"name": "أحمد سيد رسلان محمد حمزة", "branch": "جاليريا"}, "1480": {"name": "رضا عماد صلاح علي", "branch": "جاليريا"}, "1495": {"name": "أحمد سيد دسوقي عطية", "branch": "جاليريا"}, "1573": {"name": "بابكر عماد بابكر عبدالمجيد", "branch": "جاليريا"}, "1644": {"name": "يوسف عبدالنبي بدر إبراهيم", "branch": "جاليريا"}, "1666": {"name": "محمد حافظ فيصل حافظ", "branch": "جاليريا"}, "1932": {"name": "سعيد إبراهيم عباس عبدالراضي", "branch": "جاليريا"}, "101": {"name": "خالد أشرف زكي أبو النجا", "branch": "ليك تاون"}, "619": {"name": "محمد طه سعد خليل إسماعيل", "branch": "ليك تاون"}, "667": {"name": "حسام عزت أحمد سيد أبو عقده", "branch": "ليك تاون"}, "729": {"name": "محمد سعيد حسن أبو بكر", "branch": "ليك تاون"}, "733": {"name": "نور الدين مجدي كمال عبدالوهاب", "branch": "ليك تاون"}, "935": {"name": "عبدالوهاب محمد كمال عبدالوهاب محمد", "branch": "ليك تاون"}, "957": {"name": "إبراهيم عنتر سيد أحمد شعراوي", "branch": "ليك تاون"}, "1325": {"name": "محمد أشرف محمد حامد", "branch": "ليك تاون"}, "1436": {"name": "أحمد إبراهيم حسيني عبد المجيد", "branch": "ليك تاون"}, "1445": {"name": "رأفت حسن محمد حسن حامد", "branch": "ليك تاون"}, "1464": {"name": "حسن محمد رحمه الله محمد", "branch": "ليك تاون"}, "1502": {"name": "محمد أنور رمضان رمضان", "branch": "ليك تاون"}, "1533": {"name": "أحمد محمد محمد خميس", "branch": "ليك تاون"}, "1543": {"name": "كريم عيد السيد المنسي البدوي", "branch": "ليك تاون"}, "1584": {"name": "مصطفي محمد منازع محمد", "branch": "ليك تاون"}, "1585": {"name": "أحمد سيد حسن سليم", "branch": "ليك تاون"}, "1618": {"name": "عمار أحمد محمد عز العرب سيد", "branch": "ليك تاون"}, "1777": {"name": "محمد خالد سيد عبدالرحمن", "branch": "ليك تاون"}, "1796": {"name": "حسين جمال حسين إبراهيم", "branch": "ليك تاون"}, "1828": {"name": "هشام عبدالباسط محمد رفاعي", "branch": "ليك تاون"}, "1868": {"name": "عمرو علاء محمد السيد شحاته", "branch": "ليك تاون"}, "1872": {"name": "عبدالله سيد جمعه السيد عبدربه", "branch": "ليك تاون"}, "1880": {"name": "طارق سعد صديق علي يونس", "branch": "ليك تاون"}, "1886": {"name": "أدهم محمد سيد محمد سعد", "branch": "ليك تاون"}, "1890": {"name": "عمرو صياد شاهين علي", "branch": "ليك تاون"}, "1929": {"name": "محمد عبدالعزيز امين عباس", "branch": "ليك تاون"}, "1939": {"name": "طاهر أبوزيد عبدالرحيم حسن", "branch": "ليك تاون"}, "1955": {"name": "إبراهيم محمد إبراهيم عبدالتواب", "branch": "ليك تاون"}, "38": {"name": "محمد هلال خلف حسن", "branch": "مدينتي"}, "100": {"name": "محمود محمد قاسم عبدالعال", "branch": "مدينتي"}, "102": {"name": "محمود ناجح عبدالنظير محمد", "branch": "مدينتي"}, "105": {"name": "أحمد علي أحمد أبو سريع", "branch": "مدينتي"}, "172": {"name": "فوزي مجدي هلال باهي", "branch": "مدينتي"}, "337": {"name": "عمرو بدر عبدالسلام طه بدر", "branch": "مدينتي"}, "444": {"name": "محمد طارق محمد علي", "branch": "مدينتي"}, "965": {"name": "إسلام عبدالحليم محمود فرج شاهين", "branch": "مدينتي"}, "973": {"name": "أشرف عادل إسماعيل السباعي", "branch": "مدينتي"}, "1044": {"name": "يس محمد محمود إبراهيم", "branch": "مدينتي"}, "1138": {"name": "محمد الحسن الفضل محمد الحسن الريح", "branch": "مدينتي"}, "1148": {"name": "عثمان محمد عثمان عبدالهادي", "branch": "مدينتي"}, "1168": {"name": "سيف رشدي اباظة عزت أحمد", "branch": "مدينتي"}, "1321": {"name": "محمد عبدالحليم محمود فرج علي", "branch": "مدينتي"}, "1349": {"name": "عبدالله أحمد عبدالستار عبدالغفار", "branch": "مدينتي"}, "1412": {"name": "محمد صلاح الدين عبدالله محمد", "branch": "مدينتي"}, "1470": {"name": "عمرو أيمن أحمد سيد خليفة", "branch": "مدينتي"}, "1563": {"name": "عبدالرازق ربيع حسين رشدي", "branch": "مدينتي"}, "1640": {"name": "عبدالرحمن حمزة عبدالنبي حمزة سيد", "branch": "مدينتي"}, "1746": {"name": "محمد مصطفي محمد يونس حزين", "branch": "مدينتي"}, "1840": {"name": "أدهم محمود زكريا إبراهيم عبدالهادي", "branch": "مدينتي"}, "1948": {"name": "إسلام محمود محمد محمود سعد", "branch": "مدينتي"}, "1952": {"name": "حسام سعد السيد محمد عبدالرحيم", "branch": "مدينتي"}, "92": {"name": "يوسف مصطفي محمد بيومي", "branch": "مفيدا"}, "110": {"name": "محمد شعبان يوسف شلبي", "branch": "مفيدا"}, "118": {"name": "محمد حمدي محمد سيد الشربي", "branch": "مفيدا"}, "421": {"name": "عبدالرحمن محسن عبدالعاطي عبدالجواد", "branch": "مفيدا"}, "502": {"name": "خالد حسن مرعي السيد الدجوي", "branch": "مفيدا"}, "734": {"name": "محمد نبيل لطفي عبدالمقصود محمد", "branch": "مفيدا"}, "798": {"name": "محمود صابر صابر السيد", "branch": "مفيدا"}, "805": {"name": "محمد أكرم محمد زكي عبدالحكيم عبدالغفار", "branch": "مفيدا"}, "839": {"name": "عبدالرحمن أحمد حسني حسين", "branch": "مفيدا"}, "984": {"name": "محمود ممدوح محروس إسماعيل", "branch": "مفيدا"}, "1015": {"name": "عبدالرحمن عماد الدين حسني سويلم", "branch": "مفيدا"}, "1094": {"name": "محمد خلف درويش حسن", "branch": "مفيدا"}, "1117": {"name": "أحمد محمد فتحي محمد", "branch": "مفيدا"}, "1147": {"name": "محمد صابر سالم محمد", "branch": "مفيدا"}, "1245": {"name": "محمد عماد مناع حسن عبدالمحسن", "branch": "مفيدا"}, "1286": {"name": "أحمد نبيل رمضان السيد", "branch": "مفيدا"}, "1425": {"name": "أحمد رمضان طه السيد خضر", "branch": "مفيدا"}, "1446": {"name": "سيف محمد علي محمد همام", "branch": "مفيدا"}, "1583": {"name": "أحمد بكر عبدالواحد بكر", "branch": "مفيدا"}, "1604": {"name": "النعيم الخير يونس سعد", "branch": "مفيدا"}, "1619": {"name": "كريم بيومي أحمد محمد حسين", "branch": "مفيدا"}, "1626": {"name": "يوسف بدران عبدالفتاح عبدالفتاح", "branch": "مفيدا"}, "1632": {"name": "متوكل عبدالقادر محمد أحمد", "branch": "مفيدا"}, "1662": {"name": "كريم محمود سعيد محمود غريب", "branch": "مفيدا"}, "1703": {"name": "درويش خلف درويش حسن", "branch": "مفيدا"}, "1793": {"name": "محمد عصام محمود محمد إبراهيم", "branch": "مفيدا"}, "1812": {"name": "مروان بلال عبدالعاطي محمد دسوقي", "branch": "مفيدا"}, "1878": {"name": "يوحنا فايز إدوارد حبيب سعيد", "branch": "مفيدا"}, "1879": {"name": "سيد محمد فتحي محمد محمود", "branch": "مفيدا"}, "1896": {"name": "يوسف صلاح الدين جمال توفيق جاب الله", "branch": "مفيدا"}, "1927": {"name": "صابر ايمن صابر الزفيتي", "branch": "مفيدا"}, "1928": {"name": "محمد ضياء الدين جابر محمد", "branch": "مفيدا"}, "1930": {"name": "احمد ياسر مصطفي شحاته", "branch": "مفيدا"}, "1931": {"name": "احمد محمد عبدالسلام محمد إبراهيم", "branch": "مفيدا"}, "1934": {"name": "محمود حسين محمد محمد", "branch": "مفيدا"}, "1935": {"name": "محمد اشرف أبو العينين إبراهيم", "branch": "مفيدا"}, "1940": {"name": "إيهاب عادل عبدالتواب محمد", "branch": "مفيدا"}, "1947": {"name": "عبدالرحمن حمدي عبدالنبي عبدالعزيز", "branch": "مفيدا"}, "1998": {"name": "اسامه رمضان أمام علي", "branch": "مفيدا"}, "89": {"name": "محمود عصام مرسي حسن الغنام", "branch": "نيو جيزة"}, "535": {"name": "محمد أحمد العدوي نعيم بدري", "branch": "نيو جيزة"}, "636": {"name": "كريم رضا أحمد حسين سليمان", "branch": "نيو جيزة"}, "643": {"name": "فهد حازم سيد عبدالحميد محمد", "branch": "نيو جيزة"}, "673": {"name": "محمد عبدالرحمن عيد أبو العلا", "branch": "نيو جيزة"}, "822": {"name": "زياد ياسر إبراهيم عبدالعال", "branch": "نيو جيزة"}, "1042": {"name": "طارق محمد عبدالعزيز عبدربه", "branch": "نيو جيزة"}, "1102": {"name": "محمود محمد محمود عيسي القاضي", "branch": "نيو جيزة"}, "1510": {"name": "عادل أحمد عبده سيد مرسي", "branch": "نيو جيزة"}, "1547": {"name": "محسن طارق عبدالمحسن محمد عليوه", "branch": "نيو جيزة"}, "1555": {"name": "زياد عادل إبراهيم رجب", "branch": "نيو جيزة"}, "1738": {"name": "محمد سمير عبدالباسط عباس", "branch": "نيو جيزة"}, "1770": {"name": "علي محمود محمد أحمد محمد", "branch": "نيو جيزة"}, "SC001": {"name": "زائر - السنتر", "branch": "السنتر"}, "SC002": {"name": "زائر - السنتر", "branch": "السنتر"}, "SC003": {"name": "زائر - السنتر", "branch": "السنتر"}, "SC004": {"name": "زائر - السنتر", "branch": "السنتر"}, "SC005": {"name": "زائر - السنتر", "branch": "السنتر"}, "MC001": {"name": "زائر - المعادي", "branch": "المعادي"}, "MC002": {"name": "زائر - المعادي", "branch": "المعادي"}, "MC003": {"name": "زائر - المعادي", "branch": "المعادي"}, "MC004": {"name": "زائر - المعادي", "branch": "المعادي"}, "MC005": {"name": "زائر - المعادي", "branch": "المعادي"}, "IV001": {"name": "زائر - إيفوري", "branch": "إيفوري"}, "IV002": {"name": "زائر - إيفوري", "branch": "إيفوري"}, "IV003": {"name": "زائر - إيفوري", "branch": "إيفوري"}, "IV004": {"name": "زائر - إيفوري", "branch": "إيفوري"}, "IV005": {"name": "زائر - إيفوري", "branch": "إيفوري"}, "PK001": {"name": "زائر - بارك إستريت", "branch": "بارك إستريت"}, "PK002": {"name": "زائر - بارك إستريت", "branch": "بارك إستريت"}, "PK003": {"name": "زائر - بارك إستريت", "branch": "بارك إستريت"}, "PK004": {"name": "زائر - بارك إستريت", "branch": "بارك إستريت"}, "PK005": {"name": "زائر - بارك إستريت", "branch": "بارك إستريت"}, "GL001": {"name": "زائر - جاليريا", "branch": "جاليريا"}, "GL002": {"name": "زائر - جاليريا", "branch": "جاليريا"}, "GL003": {"name": "زائر - جاليريا", "branch": "جاليريا"}, "GL004": {"name": "زائر - جاليريا", "branch": "جاليريا"}, "GL005": {"name": "زائر - جاليريا", "branch": "جاليريا"}, "LK001": {"name": "زائر - ليك تاون", "branch": "ليك تاون"}, "LK002": {"name": "زائر - ليك تاون", "branch": "ليك تاون"}, "LK003": {"name": "زائر - ليك تاون", "branch": "ليك تاون"}, "LK004": {"name": "زائر - ليك تاون", "branch": "ليك تاون"}, "LK005": {"name": "زائر - ليك تاون", "branch": "ليك تاون"}, "MD001": {"name": "زائر - مدينتي", "branch": "مدينتي"}, "MD002": {"name": "زائر - مدينتي", "branch": "مدينتي"}, "MD003": {"name": "زائر - مدينتي", "branch": "مدينتي"}, "MD004": {"name": "زائر - مدينتي", "branch": "مدينتي"}, "MD005": {"name": "زائر - مدينتي", "branch": "مدينتي"}, "MF001": {"name": "زائر - مفيدا", "branch": "مفيدا"}, "MF002": {"name": "زائر - مفيدا", "branch": "مفيدا"}, "MF003": {"name": "زائر - مفيدا", "branch": "مفيدا"}, "MF004": {"name": "زائر - مفيدا", "branch": "مفيدا"}, "MF005": {"name": "زائر - مفيدا", "branch": "مفيدا"}, "NJ001": {"name": "زائر - نيو جيزة", "branch": "نيو جيزة"}, "NJ002": {"name": "زائر - نيو جيزة", "branch": "نيو جيزة"}, "NJ003": {"name": "زائر - نيو جيزة", "branch": "نيو جيزة"}, "NJ004": {"name": "زائر - نيو جيزة", "branch": "نيو جيزة"}, "NJ005": {"name": "زائر - نيو جيزة", "branch": "نيو جيزة"}, "G8001": {"name": "زائر - جاردن 8", "branch": "جاردن 8"}, "G8002": {"name": "زائر - جاردن 8", "branch": "جاردن 8"}, "G8003": {"name": "زائر - جاردن 8", "branch": "جاردن 8"}, "G8004": {"name": "زائر - جاردن 8", "branch": "جاردن 8"}, "G8005": {"name": "زائر - جاردن 8", "branch": "جاردن 8"}};
+
+// ============================================================
+// QUESTIONS BANK — from the PDF
+// ============================================================
+const QS = {
+1: [
+  // MCQ
+  {type:'mcq', term:{fr:'HACCP',pr:'هاساب',mn:'نظام تحليل المخاطر ونقاط التحكم الحرجة'},
+   text:'ماذا يعني اختصار HACCP؟',
+   opts:['Hazard Analysis Critical Control Points — تحليل المخاطر ونقاط التحكم الحرجة','High Accuracy Chef Control Plan','Hygiène Alimentaire Contrôle Critique et Préventif','Health And Catering Certification Program'],
+   ans:0},
+  {type:'mcq', term:{fr:'Zone de danger',pr:'زون دو دانجيه',mn:'النطاق الحراري الخطير'},
+   text:'ما هو النطاق الحراري الخطير (Zone de danger) الذي تتضاعف فيه البكتيريا؟',
+   opts:['0°م – 4°م','4°م – 63°م','63°م – 75°م','فوق 100°م'],
+   ans:1},
+  {type:'mcq', term:{fr:'CCP',pr:'سيسيبي',mn:'نقطة التحكم الحرجة'},
+   text:'ما درجة حرارة الطهي الآمنة للدواجن (Volaille) وسط الطعام؟',
+   opts:['63°م','70°م','75°م','85°م'],
+   ans:2},
+  {type:'mcq', term:{fr:'Réfrigérateur',pr:'ريفريجيراتور',mn:'الثلاجة'},
+   text:'ما درجة حرارة الثلاجة (Réfrigérateur) الآمنة للحفظ؟',
+   opts:['أقل من أو تساوي 4°م','10°م','15°م','صفر °م فقط'],
+   ans:0},
+  {type:'mcq', term:{fr:'Congélateur',pr:'كونجيلاتور',mn:'الفريزر'},
+   text:'ما درجة الفريزر (Congélateur) التي توقف نمو البكتيريا تماماً؟',
+   opts:['0°م','-5°م','-18°م','-10°م'],
+   ans:2},
+  {type:'mcq', term:{fr:'FIFO',pr:'فيفو',mn:'الأول دخولاً الأول خروجاً'},
+   text:'ما معنى FIFO في المطبخ؟',
+   opts:['First In First Out — الأول دخولاً الأول خروجاً','Fast In Fast Out','First Item Fresh Order','Food Inspection Filing Order'],
+   ans:0},
+  {type:'mcq', term:{fr:'Danger biologique',pr:'دانجيه بيولوجيك',mn:'الخطر البيولوجي'},
+   text:'أي من هذه البكتيريا تنتقل عبر الدجاج والبيض النيء بشكل شائع؟',
+   opts:['Listeria','Staphylocoque','Salmonella','E.coli O157'],
+   ans:2},
+  {type:'mcq', term:{fr:'Lavage des mains',pr:'الفاج دي مان',mn:'غسل اليدين'},
+   text:'كم مدة غسل اليدين الصحيحة؟',
+   opts:['5 ثواني','10 ثواني','20 ثانية','30 ثانية'],
+   ans:2},
+  {type:'mcq', term:{fr:'Contamination croisée',pr:'كونتاميناسيون كروازيه',mn:'التلوث المتبادل'},
+   text:'ما أفضل وسيلة لمنع التلوث المتبادل (Contamination croisée)؟',
+   opts:['غسل اليدين فقط','ألواح تقطيع بألوان مختلفة لكل نوع طعام','التبريد المستمر','الطهي بدرجة عالية'],
+   ans:1},
+  {type:'mcq', term:{fr:'Nettoyage',pr:'نيتواياج',mn:'التنظيف'},
+   text:'ما الفرق بين Nettoyage وDésinfection؟',
+   opts:['لا فرق بينهما','التنظيف يزيل الأوساخ والتطهير يقضي على الميكروبات','التطهير أولاً ثم التنظيف','هما نفس العملية بأدوات مختلفة'],
+   ans:1},
+  // TF
+  {type:'tf', term:{fr:'Uniforme',pr:'يونيفورم',mn:'الزي الموحد'},
+   text:'يجب أن يكون الزي الموحد (Uniforme) نظيفاً ومغسولاً يومياً لمنع نقل الملوثات.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Bijoux',pr:'بيجو',mn:'المجوهرات'},
+   text:'يُسمح بارتداء المجوهرات (Bijoux) أثناء العمل في المطبخ.',
+   opts:['صح — Vrai','غلط — Faux'], ans:1},
+  {type:'tf', term:{fr:'Charlotte',pr:'شارلوت',mn:'غطاء الرأس'},
+   text:'غطاء الرأس (Charlotte) إلزامي لجميع العاملين بالمطبخ لمنع سقوط الشعر في الطعام.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Décongélation',pr:'ديكونجيلاسيون',mn:'إذابة التجميد'},
+   text:'يمكن إذابة اللحوم المجمدة (Décongélation) على طاولة المطبخ في درجة حرارة الغرفة بأمان.',
+   opts:['صح — Vrai','غلط — Faux'], ans:1},
+  {type:'tf', term:{fr:'Surveillance',pr:'سورفيالنس',mn:'المراقبة اليومية'},
+   text:'المراقبة (Surveillance) في نظام HACCP يجب أن تكون يومية ومستمرة.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Documentation',pr:'دوكيمانتاسيون',mn:'التوثيق'},
+   text:'بدون توثيق (Documentation) لا يُعتبر نظام HACCP مطبقاً حتى لو كانت الإجراءات صحيحة.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Ongles',pr:'أونغل',mn:'الأظافر'},
+   text:'يمكن ارتداء طلاء الأظافر (Vernis à ongles) في المطبخ إذا كانت الأظافر قصيرة.',
+   opts:['صح — Vrai','غلط — Faux'], ans:1},
+  {type:'tf', term:{fr:'Danger physique',pr:'دانجيه فيزيك',mn:'الخطر الفيزيائي'},
+   text:'الزجاج المكسور في الطعام يُصنَّف كخطر فيزيائي (Danger physique).',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Chaîne du froid',pr:'شين دو فروا',mn:'سلسلة البرودة'},
+   text:'كسر سلسلة البرودة (Chaîne du froid) ولو لفترة قصيرة يؤدي إلى تكاثر البكتيريا.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Action corrective',pr:'أكسيون كوريكتيف',mn:'الإجراء التصحيحي'},
+   text:'الإجراء التصحيحي (Action corrective) يُتخذ فقط بعد شكوى زبون.',
+   opts:['صح — Vrai','غلط — Faux'], ans:1},
+],
+2: [
+  {type:'mcq', term:{fr:'Arbre de décision',pr:'أربر دو ديسيزيون',mn:'شجرة القرار'},
+   text:'ما هو استخدام شجرة القرار (Arbre de décision) في HACCP؟',
+   opts:['تحديد المورد المناسب','تحديد ما إذا كانت مرحلة إنتاجية CCP أم لا','تصميم قائمة الطعام','تدريب الموظفين'],
+   ans:1},
+  {type:'mcq', term:{fr:'Limite critique',pr:'ليميت كريتيك',mn:'الحد الحرج'},
+   text:'ما الفرق بين الحد الحرج (Limite critique) وحد التحكم (Limite de maîtrise)؟',
+   opts:['لا فرق','الحد الحرج هو الخط الأحمر وحد التحكم هو إنذار مبكر قبله','حد التحكم أشد خطورة','الحد الحرج للمراقبة اليومية فقط'],
+   ans:1},
+  {type:'mcq', term:{fr:'Diagramme d\'Ishikawa',pr:'دياغرام ديشيكاوا',mn:'مخطط عظمة السمكة'},
+   text:'ما الاسم الآخر لمخطط Ishikawa في تحليل المخاطر؟',
+   opts:['مخطط دائري','مخطط عظمة السمكة','مخطط المسار','مخطط باريتو'],
+   ans:1},
+  {type:'mcq', term:{fr:'Matières',pr:'ماتيير',mn:'المواد الأولية'},
+   text:'في الـ 5M — ماذا تمثل Matières؟',
+   opts:['المعدات والأدوات','العمالة والموظفون','المواد الخام والمكونات الأولية','الطرق والإجراءات'],
+   ans:2},
+  {type:'mcq', term:{fr:'Marche en avant',pr:'مارش أون أفان',mn:'التقدم للأمام'},
+   text:'ما مبدأ Marche en avant في تصميم المطبخ الاحترافي؟',
+   opts:['الطعام يتحرك من الأكثر نظافة للأقل نظافة','الطعام يتحرك من الأقل نظافة للأكثر نظافة ولا يعود','الطاهي يتحرك بحرية بين المناطق','لا يهم اتجاه الحركة'],
+   ans:1},
+  {type:'mcq', term:{fr:'Allergène',pr:'أليرجان',mn:'المادة المسببة للحساسية'},
+   text:'كم عدد المواد المسببة للحساسية (Allergènes) المُلزَم الإفصاح عنها قانونياً؟',
+   opts:['7','10','14','20'],
+   ans:2},
+  {type:'mcq', term:{fr:'Traçabilité',pr:'تراساليبيتيه',mn:'التتبعية'},
+   text:'ما معنى Traçabilité في سلامة الغذاء؟',
+   opts:['قائمة الموردين فقط','القدرة على تتبع المادة الغذائية في جميع مراحل الإنتاج والتوزيع من المزرعة للطبق','سجل الطهاة','التتبع اليومي للمبيعات'],
+   ans:1},
+  {type:'mcq', term:{fr:'Listeria',pr:'ليستيريا',mn:'بكتيريا الليستيريا'},
+   text:'ما المصدر الرئيسي لبكتيريا Listeria وما الفئة الأكثر عرضة للخطر؟',
+   opts:['الدواجن النيئة — الأطفال','الجبن الطري والأسماك المدخنة — الحوامل','البيض — كبار السن','الخضراوات — الرياضيون'],
+   ans:1},
+  {type:'mcq', term:{fr:'Vérification',pr:'فيريفيكاسيون',mn:'التحقق الدوري'},
+   text:'من يقوم بالتحقق (Vérification) الدوري في نظام HACCP؟',
+   opts:['الموظف العادي يومياً','مساعد المدير أو المدير أسبوعياً/شهرياً','جهة خارجية فقط','لا أحد، يتم تلقائياً'],
+   ans:1},
+  {type:'mcq', term:{fr:'Choc anaphylactique',pr:'شوك أنافيالكتيك',mn:'الصدمة التحسسية الشديدة'},
+   text:'ما الفرق بين الحساسية (Allergie) وعدم التحمل (Intolérance)؟',
+   opts:['لا فرق','الحساسية ردة فعل مناعية قد تكون مميتة، عدم التحمل مشكلة هضمية غير مميتة','عدم التحمل أخطر من الحساسية','الحساسية تؤثر على الهضم فقط'],
+   ans:1},
+  // TF
+  {type:'tf', term:{fr:'Zone souillée',pr:'زون سويييه',mn:'المنطقة القذرة'},
+   text:'في تصميم المطبخ، مرحلة استلام البضائع وتقطيع اللحوم النيئة تُصنَّف Zone souillée (منطقة قذرة).',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Enregistrement',pr:'انريجيسترمان',mn:'سجل التوثيق'},
+   text:'التوثيق (Enregistrement) في HACCP يمكن تأجيله لنهاية الأسبوع.',
+   opts:['صح — Vrai','غلط — Faux'], ans:1},
+  {type:'tf', term:{fr:'Salmonellose',pr:'سالمونيلوز',mn:'مرض السالمونيلا'},
+   text:'أعراض السالمونيلا (Salmonellose) تظهر بعد 6 إلى 72 ساعة من التلوث.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Milieu',pr:'ميليو',mn:'البيئة المحيطة'},
+   text:'في الـ 5M، Milieu يعني المعدات والأدوات المستخدمة في المطبخ.',
+   opts:['صح — Vrai','غلط — Faux'], ans:1},
+  {type:'tf', term:{fr:'Rappel de produit',pr:'رابيل دو برودوي',mn:'سحب المنتج من السوق'},
+   text:'عند اكتشاف تلوث في دفعة إنتاج، يجب عزل المنتج (Rappel de produit) وإخطار المسؤولين فوراً.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Désinfection',pr:'ديزانفيكسيون',mn:'التطهير'},
+   text:'يمكن تطهير (Désinfection) الأسطح مباشرةً دون تنظيفها أولاً بنفس الكفاءة.',
+   opts:['صح — Vrai','غلط — Faux'], ans:1},
+  {type:'tf', term:{fr:'Staphylocoque',pr:'ستافيلوكوك',mn:'المكورات العنقودية'},
+   text:'بكتيريا Staphylocoque تنتقل عبر الأيدي الملوثة والجروح المفتوحة.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Déviation',pr:'ديفياسيون',mn:'الانحراف عن المعيار'},
+   text:'الانحراف (Déviation) عن الحد الحرج يستلزم إجراء تصحيحياً فورياً.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Traçabilité ascendante',pr:'تراساليبيتيه أسيندانت',mn:'التتبعية الصاعدة'},
+   text:'Traçabilité ascendante تعني تتبع المادة من الطبق للخلف لمعرفة مصدرها.',
+   opts:['صح — Vrai','غلط — Faux'], ans:0},
+  {type:'tf', term:{fr:'Intolérance',pr:'انتوليرانس',mn:'عدم التحمل'},
+   text:'عدم تحمل اللاكتوز (Intolérance au lactose) قد يكون مميتاً مثل الحساسية الغذائية تماماً.',
+   opts:['صح — Vrai','غلط — Faux'], ans:1},
+]
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let exam = {};
+let answers = [];
+let cq = 0;
+let timerInt = null;
+let timeLeft = 420;
+let startT = null;
+let cheatCount = 0;
+let examActive = false;
+
+// ============================================================
+// DEVICE LOCK
+// ============================================================
+function getDevId(){
+  let id = localStorage.getItem('_devid_L1');
+  if(!id){id='d_'+Math.random().toString(36).substr(2,9)+'_'+Date.now();localStorage.setItem('_devid_L1',id);}
+  return id;
+}
+function isLocked(name, code){
+  // Only lock by code - works on all devices including iPhone
+  const key = '_done_L1_' + (code||'');
+  return !!localStorage.getItem(key);
+}
+
+window.onload = function(){
+  setupAntiCheat();
+};
+
+// ============================================================
+// ANTI-CHEAT
+// ============================================================
+function setupAntiCheat(){
+  // Tab visibility
+  document.addEventListener('visibilitychange',()=>{
+    if(examActive && document.hidden) triggerCheat('غادرت التبويب أو قللت التطبيق');
+  });
+  // Window blur
+  window.addEventListener('blur',()=>{
+    if(examActive) triggerCheat('خرجت من نافذة الامتحان');
+  });
+  // Right click
+  document.addEventListener('contextmenu',e=>{if(examActive)e.preventDefault();});
+  // F12, Ctrl+U, etc
+  document.addEventListener('keydown',e=>{
+    if(!examActive) return;
+    if(e.key==='F12'||e.key==='F5'||(e.ctrlKey&&['u','s','a','c','v'].includes(e.key.toLowerCase()))){
+      e.preventDefault();
+      triggerCheat('استخدام مفاتيح غير مسموح بها');
+    }
+  });
+}
+
+function triggerCheat(reason){
+  if(!examActive) return;
+  cheatCount++;
+  examActive = false;
+  clearInterval(timerInt);
+  document.getElementById('cheat-msg').textContent=`${reason}. تم إيقاف الامتحان فوراً بسبب مخاولة الغش.`;
+  document.getElementById('cheat-count').textContent=`❌ تم إنهاء الامتحان`;
+  document.getElementById('cheat-overlay').classList.add('show');
+  setTimeout(()=>{ submitExam(true); },2500);
+}
+
+function returnToExam(){
+  document.getElementById('cheat-overlay').classList.remove('show');
+}
+
+// ============================================================
+// EXAM LOGIC
+// ============================================================
+
+function lookupCode(){
+  const code = document.getElementById('i-code').value.trim();
+  const preview = document.getElementById('emp-preview');
+  const error = document.getElementById('emp-error');
+  const btn = document.getElementById('btn-start');
+  
+  if(!code){ preview.style.display='none'; error.style.display='none'; btn.style.display='none'; return; }
+  
+  const emp = EMPLOYEES[code];
+  if(emp){
+    document.getElementById('emp-name').textContent = emp.name;
+    document.getElementById('emp-branch').textContent = '🏢 ' + emp.branch;
+    preview.style.display='block';
+    error.style.display='none';
+    btn.style.display='block';
+  } else {
+    preview.style.display='none';
+    error.style.display='block';
+    btn.style.display='none';
+  }
+}
+
+function showS(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startExam(){
+  const code=document.getElementById('i-code').value.trim();
+  const lvl=document.getElementById('i-level').value;
+  const emp = EMPLOYEES[code];
+  if(!emp){alert('الكود غير صحيح');return;}
+  const name = emp.name;
+  const job = emp.branch;
+  if(!code||!lvl){alert('من فضلك ادخل الكود');return;}
+  if(isLocked(name, code)){
+    // Show blocked with this person's info
+    const k = '_done_L1_'+code;
+    try{
+      const d=JSON.parse(localStorage.getItem(k));
+      document.getElementById('blocked-info').innerHTML=
+        'الاسم: '+d.name+' | النتيجة: '+d.score+'% | التاريخ: '+d.date;
+    }catch(e){}
+    showS('s-blocked');
+    return;
+  }
+
+  const qs=[...QS[lvl]].sort(()=>Math.random()-.5);
+  exam={name,job,code,lvl,qs};
+  answers=new Array(qs.length).fill(null);
+  cq=0; timeLeft=420; cheatCount=0; startT=Date.now();
+  examActive=true;
+
+  document.getElementById('e-name-bar').textContent=name;
+  document.getElementById('e-job-bar').textContent='💼 '+job;
+  document.getElementById('e-code-bar').textContent='🪪 '+code;
+  document.getElementById('e-level').textContent=lvl=='1'?'⭐ المستوى الأول':'⭐⭐ المستوى الثاني';
+  buildDots();
+  showS('s-exam');
+  renderQ();
+  startTimer();
+
+  // Request fullscreen hint
+  if(document.documentElement.requestFullscreen){
+    document.documentElement.requestFullscreen().catch(()=>{});
+  }
+}
+
+function buildDots(){
+  const c=document.getElementById('q-dots');
+  c.innerHTML='';
+  exam.qs.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='dot'+(i===0?' curr':'');
+    d.textContent=i+1;
+    d.onclick=()=>goQ(i);
+    c.appendChild(d);
+  });
+}
+
+function updateDots(){
+  const dots=document.querySelectorAll('.dot');
+  dots.forEach((d,i)=>{
+    d.className='dot';
+    if(answers[i]!==null) d.classList.add('done');
+    if(i===cq) d.classList.add('curr');
+  });
+}
+
+function renderQ(){
+  const q=exam.qs[cq];
+  const total=exam.qs.length;
+  document.getElementById('q-num').textContent=`سؤال ${cq+1} من ${total}`;
+  document.getElementById('q-badge').textContent=q.type==='mcq'?'اختيار من متعدد 🔵':'صح أو غلط 🟡';
+  document.getElementById('q-badge').className='q-badge '+(q.type==='mcq'?'mcq':'tf');
+
+  // Term box
+  if(q.term){
+    document.getElementById('q-term').style.display='block';
+    document.getElementById('q-term-fr').textContent=q.term.fr;
+    document.getElementById('q-term-pr').textContent='🔊 النطق: '+q.term.pr;
+    document.getElementById('q-term-mn').textContent='📖 المعنى: '+q.term.mn;
+  } else {
+    document.getElementById('q-term').style.display='none';
+  }
+
+  document.getElementById('q-text').textContent=q.text;
+  const ltrs=['أ','ب','ج','د'];
+  const c=document.getElementById('opts');
+  c.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(answers[cq]===i?' sel':'');
+    b.innerHTML=`<span class="opt-ltr" style="${answers[cq]===i?'background:var(--green);color:#fff':''}">${q.type==='mcq'?ltrs[i]:(i===0?'✓':'✗')}</span>${o}`;
+    b.onclick=()=>selAns(i);
+    c.appendChild(b);
+  });
+
+  document.getElementById('prog').style.width=((cq+1)/total*100)+'%';
+  document.getElementById('btn-prev').disabled=cq===0;
+  document.getElementById('btn-next').style.display=cq<total-1?'inline-block':'none';
+  document.getElementById('btn-sub').style.display=cq===total-1?'inline-block':'none';
+  updateDots();
+}
+
+function selAns(i){
+  answers[cq]=i;
+  const ltrs=['أ','ب','ج','د'];
+  document.querySelectorAll('.opt').forEach((b,j)=>{
+    b.className='opt'+(j===i?' sel':'');
+    const ltr=b.querySelector('.opt-ltr');
+    ltr.style.background=j===i?'var(--green)':'';
+    ltr.style.color=j===i?'#fff':'';
+  });
+  updateDots();
+}
+
+function goQ(i){cq=i;renderQ();}
+function nextQ(){if(cq<exam.qs.length-1){cq++;renderQ();}}
+function prevQ(){if(cq>0){cq--;renderQ();}}
+
+function startTimer(){
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{
+    timeLeft--;
+    const m=Math.floor(timeLeft/60),s=timeLeft%60;
+    const el=document.getElementById('timer');
+    el.textContent=`${m}:${s.toString().padStart(2,'0')}`;
+    if(timeLeft<=120) el.classList.add('warn');
+    if(timeLeft<=0){clearInterval(timerInt);submitExam(false,true);}
+  },1000);
+}
+
+function submitExam(byCheat=false, byTime=false){
+  clearInterval(timerInt);
+  examActive=false;
+
+  // Exit fullscreen
+  if(document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+
+  let correct=0;
+  exam.qs.forEach((q,i)=>{if(answers[i]===q.ans)correct++;});
+  const total=exam.qs.length;
+  const score=Math.round(correct/total*100);
+  const pass=score>=70;
+  const elapsed=Math.round((Date.now()-startT)/1000);
+  const em=Math.floor(elapsed/60),es=elapsed%60;
+
+  exam.score=score; exam.correct=correct; exam.elapsed=`${em}:${es.toString().padStart(2,'0')}`;
+
+  // Lock device
+  const examKey = '_done_L1_'+exam.code;
+  localStorage.setItem(examKey, JSON.stringify({
+    name: exam.name,
+    job: exam.job,
+    code: exam.code,
+    lvl: exam.lvl,
+    score: score,
+    correct: correct,
+    total: total,
+    elapsed: exam.elapsed || '-',
+    date: new Date().toLocaleDateString('ar-EG')
+  }));
+
+  document.getElementById('r-icon').textContent=pass?'🎉':'😔';
+  document.getElementById('r-title').textContent=pass?'ناجح ✅':'راسب ❌';
+  document.getElementById('r-title').className='res-title '+(pass?'pass':'fail');
+  document.getElementById('r-score').textContent=score+'%';
+  document.getElementById('r-score').className='res-score '+(pass?'pass':'fail');
+  document.getElementById('r-msg').textContent=pass?'أحسنت! اجتزت الامتحان بنجاح 🌟':'لم تتجاوز الحد الأدنى 70% — راجع المنهج وحاول مجدداً.';
+  document.getElementById('r-c').textContent=correct;
+  document.getElementById('r-w').textContent=total-correct;
+  document.getElementById('r-t').textContent=total;
+  document.getElementById('r-tm').textContent=exam.elapsed;
+
+  const cb=document.getElementById('r-cheat');
+  if(cheatCount>0){
+    cb.style.display='block';
+    cb.textContent=`⚠️ تم تسجيل ${cheatCount} مخالفة${byCheat?' — تم إنهاء الامتحان بسبب كثرة المخالفات':''}`;
+  }
+  document.getElementById('btn-cert').style.display=pass?'block':'none';
+  showS('s-result');
+}
+
+// ============================================================
+// CERTIFICATE
+// ============================================================
+
+function showCertFromAdmin(r){
+  exam = {
+    name: r.name || '-',
+    job: r.job || '-',
+    code: r.code || '-',
+    lvl: r.lvl || '1',
+    score: r.score || 0,
+    correct: r.correct || '-',
+    qs: {length: r.total || 20},
+    elapsed: r.elapsed || '-'
+  };
+  showCert();
+}
+
+function showCert(){
+  const d=exam;
+  const now=new Date();
+  const ds=now.toLocaleDateString('ar-EG',{year:'numeric',month:'long',day:'numeric'});
+  const cid='FS-L'+d.lvl+'-'+Date.now().toString().slice(-6);
+
+  document.getElementById('c-name').textContent=d.name;
+  document.getElementById('c-body').innerHTML=
+    `قد أتمّ بنجاح امتحان<br>
+    <strong>سلامة الغذاء · HACCP & Hygiène · Food Safety</strong><br>
+    <strong>المستوى ${d.lvl=='1'?'الأول ⭐':'الثاني ⭐⭐'}</strong><br>
+    الفرع: <strong>${d.job}</strong> &nbsp;|&nbsp; الكود: <strong>${d.code}</strong>`;
+  document.getElementById('c-badge').textContent=`النتيجة: ${d.score}% | إجابات صحيحة: ${d.correct}/${d.qs.length}`;
+  document.getElementById('c-date').textContent='التاريخ: '+ds;
+  document.getElementById('c-id').textContent='رقم الشهادة: '+cid;
+
+  document.getElementById('cert-wrap').classList.add('show');
+}
+
+function closeCert(){document.getElementById('cert-wrap').classList.remove('show');}
+
+function savePDF(){
+  const el = document.getElementById('certificate');
+  const d = exam;
+  const opt = {
+    margin: 8,
+    filename: 'شهادة_' + d.name + '_' + d.score + '%.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+  };
+  const btn = event.target;
+  btn.textContent = '⏳ جاري الحفظ...';
+  btn.disabled = true;
+  html2pdf().set(opt).from(el).save().then(()=>{
+    btn.textContent = '📄 حفظ PDF';
+    btn.disabled = false;
+  });
+}
+
+function dlCert(){
+  const d=exam;
+  const ds=new Date().toLocaleDateString('ar-EG',{year:'numeric',month:'long',day:'numeric'});
+  const txt=`
+شهادة إتمام — CERTIFICAT DE RÉUSSITE
+سلامة الغذاء · HACCP & Hygiène · Food Safety
+=============================================
+الاسم: ${d.name}
+الوظيفة: ${d.job}
+المستوى: ${d.lvl=='1'?'الأول':'الثاني'}
+النتيجة: ${d.score}% (${d.correct}/${d.qs.length} إجابة صحيحة)
+التاريخ: ${ds}
+=============================================
+Central Kitchen 1980
+`;
+  const a=document.createElement('a');
+  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+  a.download=`شهادة_${d.name}_${d.score}.txt`;
+  a.click();
+  setTimeout(()=>window.print(),500);
+}
+
+
+
+
+function quickReset(){
+  const p = prompt('أدخل كلمة المرور:');
+  if(p === '171999'){
+    // device lock removed - code based only
+    const keys=[];
+    for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('_done_L1_'))keys.push(k);}
+    keys.forEach(k=>localStorage.removeItem(k));
+    alert('✅ تم إعادة التعيين');
+    location.reload();
+  } else if(p !== null){
+    alert('❌ كلمة مرور خاطئة');
+  }
+}
+
+
+function nextPerson(){
+  // Reset UI only - keep records in localStorage
+  examActive = false;
+  clearInterval(timerInt);
+  answers = [];
+  exam = {};
+  cheatCount = 0;
+  document.getElementById('i-name').value='';
+  document.getElementById('i-job').value='';
+  document.getElementById('i-code').value='';
+  document.getElementById('cheat-overlay').classList.remove('show');
+  document.getElementById('cert-wrap').classList.remove('show');
+  showS('s-welcome');
+}
+
+function adminReset(){showS("s-admin-login");}
+function quickReset(){
+  if(confirm("تأكيد إعادة التعيين للممتحن التالي؟")){
+    localStorage.removeItem('_exam_done_L1');
+    localStorage.removeItem('_devid_L1');
+    location.reload();
+  }
+}
+
+function quickReset(){
+  const p = prompt('كلمة مرور المسؤول:');
+  if(p === ADMIN_PASS){
+    localStorage.removeItem('_exam_done_L1');
+    localStorage.removeItem('_devid_L1');
+    showS('s-welcome');
+  } else if(p !== null){
+    alert('❌ كلمة مرور خاطئة');
+  }
+}
+const ADMIN_PASS = '171999';
+function adminLogin(){
+  const p=document.getElementById('admin-pass').value;
+  if(p===ADMIN_PASS){document.getElementById('admin-pass').value='';loadAdminDash();showS('s-admin-dash');}
+  else{alert('❌ كلمة مرور خاطئة');}
+}
+function loadAdminDash(){
+  const records=[];
+  for(let i=0;i<localStorage.length;i++){
+    const key=localStorage.key(i);
+    if(key&&key.startsWith('_done_L1_')){try{const d=JSON.parse(localStorage.getItem(key));d._key=key;records.push(d);}catch(e){}}
+  }
+  const total=records.length;
+  const passes=records.filter(r=>r.score>=70);
+  const avg=total?Math.round(records.reduce((s,r)=>s+r.score,0)/total):0;
+  document.getElementById('a-total').textContent=total;
+  document.getElementById('a-pass').textContent=passes.length;
+  document.getElementById('a-fail').textContent=total-passes.length;
+  document.getElementById('a-avg').textContent=avg+'%';
+  const tbody=document.getElementById('admin-tbody');
+  if(total===0){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--gray);padding:20px">لا يوجد ممتحنون بعد</td></tr>';return;}
+  tbody.innerHTML=records.map((r,i)=>`<tr>
+      <td>${i+1}</td>
+      <td><strong>${r.name||'-'}</strong></td>
+      <td>${r.job||'-'}</td>
+      <td>${r.code||'-'}</td>
+      <td style="font-weight:700;color:${r.score>=70?'#1a7a4a':'#c0392b'}">${r.score}%</td>
+      <td>${r.date||'-'}</td>
+      <td style="display:flex;gap:4px;flex-wrap:wrap">
+        ${r.score>=70?`<button class="btn-unlock" style="background:var(--gold)" onclick='showCertFromAdmin(${JSON.stringify(r)})'>🏆 شهادة</button>`:'<span style="font-size:11px;color:var(--red)">راسب</span>'}
+        <button class="btn-unlock" onclick="unlockOne('${r._key}')">🔓 فتح</button>
+      </td>
+    </tr>`).join('');
+}
+function unlockOne(key){
+  if(confirm('تأكيد فتح هذا الجهاز؟')){
+    localStorage.removeItem(key);
+    // device lock removed - code based only
+    loadAdminDash();alert('✅ تم فتح الجهاز');
+  }
+}
+function unlockAll(){
+  if(confirm('تأكيد إعادة تعيين جميع الأجهزة؟')){
+    const keys=[];
+    for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('_done_L1_'))keys.push(k);}
+    keys.forEach(k=>localStorage.removeItem(k));
+    loadAdminDash();alert('✅ تم إعادة تعيين الجميع');
+  }
+}
+</script>
+
+<!-- ADMIN LOGIN -->
+<div id="s-admin-login" class="screen" style="background:linear-gradient(135deg,#1a2332 0%,#2d4a3e 100%);">
+  <div style="font-size:48px;margin-bottom:16px">🔐</div>
+  <div class="admin-card">
+    <h2>لوحة المسؤول</h2>
+    <div class="fg"><label>كلمة مرور المسؤول</label>
+      <input type="password" id="admin-pass" placeholder="ادخل كلمة المرور" onkeydown="if(event.key==='Enter')adminLogin()">
+    </div>
+    <button class="btn-go" onclick="adminLogin()">🔑 دخول</button>
+    <button class="btn-retry" onclick="showS('s-welcome')" style="margin-top:8px">رجوع</button>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="s-admin-dash" class="screen" style="background:var(--bg);justify-content:flex-start;padding-top:20px;">
+  <div style="max-width:680px;width:100%;">
+    <div style="background:var(--dark);color:#fff;border-radius:14px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div>
+        <div style="font-size:16px;font-weight:900;">🛡️ لوحة المسؤول</div>
+        <div style="font-size:12px;color:#a0cfb8;">1980 Food Safety Exam - Level 1</div>
+      </div>
+      <button class="btn-retry" onclick="showS('s-welcome')" style="width:auto;padding:8px 16px;margin:0">خروج</button>
+    </div>
+
+    <div class="admin-stat">
+      <div class="astat"><div class="n" id="a-total">0</div><div class="l">إجمالي الممتحنين</div></div>
+      <div class="astat"><div class="n" id="a-pass">0</div><div class="l">✅ ناجحين</div></div>
+      <div class="astat"><div class="n" id="a-fail">0</div><div class="l">❌ راسبين</div></div>
+      <div class="astat"><div class="n" id="a-avg">0%</div><div class="l">متوسط النتائج</div></div>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:16px;box-shadow:var(--shadow);overflow-x:auto;">
+      <h3 style="font-size:14px;font-weight:700;margin-bottom:12px;">📋 سجل الممتحنين</h3>
+      <div id="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>#</th><th>الاسم</th><th>المنصب</th><th>الكود</th><th>النتيجة</th><th>التاريخ</th><th>إجراء</th></tr></thead>
+          <tbody id="admin-tbody"></tbody>
+        </table>
+      </div>
+      <button class="btn-unlock-all" onclick="unlockAll()">🔓 فتح الكل (إعادة تعيين جميع الأجهزة)</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
